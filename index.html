@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Assigning agent — please wait</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<style>
+body{font-family:system-ui,Arial,sans-serif;background:radial-gradient(circle at 20% 20%,#0f0c29,#302b63,#24243e);
+background-image:url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1500&q=80');
+background-size:cover;background-position:center;color &#0f2fe;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;overflow:hidden}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:0}
+.card{position:relative;z-index:1;background:rgba(15,23,42,0.85);padding:32px;border-radius:16px;box-shadow:0 0 40px rgba(0,255,255,0.3);max-width:620px;width:94%;text-align:center;backdrop-filter:blur(8px)}
+h1{margin:0 0 8px;font-size:22px;color:#7dd3fc;text-shadow:0 0 10px #0ea5e9}
+.count{font-weight:700;font-size:42px;margin:16px 0;color:#f472b6;text-shadow:0 0 15px #f472b6}
+.small{font-size:14px;color:#a5b4fc}
+button{border:none;padding:12px 18px;border-radius:10px;cursor:pointer;margin-top:14px;font-size:15px;transition:.3s}
+#manual{background:linear-gradient(90deg,#06b6d4,#3b82f6);color:white;box-shadow:0 0 15px #3b82f6}
+#manual[disabled]{opacity:.5;cursor:not-allowed;box-shadow:none}
+#telegram{background:linear-gradient(90deg,#ec4899,#8b5cf6);color:white;box-shadow:0 0 15px #a855f7;margin-left:8px}
+.progress{height:10px;background:#1e293b;border-radius:999px;margin-top:12px;overflow:hidden}
+.bar{height:100%;width:0%;background:linear-gradient(90deg,#34d399,#06b6d4);box-shadow:0 0 20px #06b6d4;transition:width .2s ease}
+</style>
+</head>
+<body>
+<div class="overlay"></div>
+<div class="card">
+  <h1>Please wait — assigning an agent</h1>
+  <p class="small">This helps distribute chats fairly. Do not close this page.</p>
+  <div class="count" id="count">10</div>
+  <div class="progress"><div id="bar" class="bar"></div></div>
+  <p class="small">You will be redirected in a few seconds...</p>
+  <button id="manual" disabled>Redirect now (wait)</button>
+  <button id="telegram">Contact on Telegram</button>
+</div>
+
+<script>
+// YOUR FINAL REDIRECT LINK (already inserted)
+const FINAL_REDIRECT = "https://smartconnect.club/JBp5ntq7vH?-3&utm_medium=paid&utm_source=ig&utm_id=6860506137000&utm_content=6860512284400&utm_term=6860512294000&utm_campaign=6860506137000";
+
+const TOTAL = 10;
+let remaining = TOTAL;
+
+const countEl = document.getElementById("count");
+const barEl = document.getElementById("bar");
+const manualBtn = document.getElementById("manual");
+
+document.getElementById("telegram").onclick = () => 
+  window.open("https://t.me/sharechatagentloot", "_blank");
+
+function update() {
+  countEl.textContent = remaining;
+  barEl.style.width = ((TOTAL - remaining) / TOTAL * 100) + "%";
+  manualBtn.textContent = remaining > 3 ? `Redirect now (${remaining}s)` : "Redirect now";
+  if (remaining <= 3) manualBtn.disabled = false;
+}
+
+function redirect() {
+  window.location.replace(FINAL_REDIRECT);
+}
+
+manualBtn.onclick = () => {
+  remaining = 0;
+  update();
+  redirect();
+};
+
+update();
+
+const timer = setInterval(() => {
+  remaining--;
+  update();
+  if (remaining <= 0) {
+    clearInterval(timer);
+    redirect();
+  }
+}, 1000);
+</script>
+</body>
+</html>
